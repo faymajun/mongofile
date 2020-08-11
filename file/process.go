@@ -2,8 +2,9 @@ package file
 
 import (
 	"fmt"
-	"github.com/urfave/cli"
 	"github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
+	"mongofile/mongo"
 	"os"
 	"os/signal"
 	"sync/atomic"
@@ -23,12 +24,15 @@ var (
 func Action() func(*cli.Context) error {
 	return func(ctx *cli.Context) error {
 		defaultConfig.scanFrequency = time.Duration(ctx.Int("scanFrequency")) * time.Second
-		fileSet, err := getFileSet(ctx.String("dictionary"))
-		if err != nil {
-			return err
-		}
+		//fileSet, err := getFileSet(ctx.String("dictionary"))
+		//if err != nil {
+		//	return err
+		//}
+		fileName := ctx.String("file")
+		mongo.ReadLog(fileName)
 
-
+		// 连接Mongo数据库
+		mongo.InitDefaultConfig(ctx.String("mongoAddr"))
 
 		// 等待退出信号
 		stopChan := make(chan os.Signal, 1)
@@ -43,6 +47,9 @@ func Action() func(*cli.Context) error {
 		if atomic.LoadInt32(&status.started) == 0 || atomic.AddInt32(&status.stoped, 1) != 1 {
 			return fmt.Errorf("Server stop duplication")
 		}
+
+		// 关闭Mongo数据库
+		mongo.CloseDefaultMongo()
 		return nil
 	}
 }

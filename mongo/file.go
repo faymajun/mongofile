@@ -30,7 +30,7 @@ func (mf *mongoFile) openFile(fileName string) {
 	}
 	os.MkdirAll(abs, os.ModePerm)
 
-	baseLogPath := filepath.Join(abs, fileName) + ".logs"
+	baseLogPath := filepath.Join(abs, fileName) + ".log"
 	//创建日志文件
 	f, errOpenFile := os.OpenFile(baseLogPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if errOpenFile != nil {
@@ -44,19 +44,17 @@ func (mf *mongoFile) openFile(fileName string) {
 
 	fileWriter := io.MultiWriter(f)
 	mf.logger = log.New(fileWriter, "", log.Ldate|log.Ltime)
-	// 写入日志内容
-	mf.logger.Println("check to make sure it works")
 }
 
 func CloseMongoLog() {
 	MongoFile.f.Close()
 }
 
-func WriteOne(document interface{}) {
+func WriteOne(db, collection string, document interface{}) {
 	go func() {
 		data, err := json.Marshal(document)
 		if err == nil {
-			MongoFile.logger.Println(string(data))
+			MongoFile.logger.Println(fmt.Sprintf("%s#%s#%s", db, collection, string(data)))
 		}
 	}()
 }

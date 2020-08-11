@@ -21,6 +21,14 @@ func main() {
 			Name:  "dictionary, d",
 			Value: "mongo",
 		},
+		cli.StringFlag{
+			Name:  "file, f",
+			Value: "text.log",
+		},
+		cli.StringFlag{
+			Name:  "mongoAddr, m",
+			Value: "mongodb://192.168.9.216:27017",
+		},
 		cli.IntFlag{
 			Name:  "scanFrequency, s",
 			Value: 60,

@@ -1,16 +1,27 @@
 package mongo
 
 import (
+	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 
 	"golang.org/x/net/context"
 )
 
 const (
-	Local_Mongo = "LocalMongo"
+	Local_Mongo = "DefaultMongo"
 )
 
-func LocalMongo() *Mongo {
+func InitDefaultConfig(addr string) {
+	redisConf := MongoConfig{Addr: addr, Name: Local_Mongo}
+	MongoMgr.Add(redisConf)
+}
+
+func CloseDefaultMongo() {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	DefaultMongo().Disconnect(ctx)
+}
+
+func DefaultMongo() *Mongo {
 	return MongoMgr.GetMongo(Local_Mongo)
 }
 

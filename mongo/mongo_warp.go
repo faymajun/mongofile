@@ -2,12 +2,12 @@ package mongo
 
 import (
 	"fmt"
-	"sync"
-	"sync/atomic"
-	"time"
-
 	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/net/context"
+	"sync"
+	"time"
 )
 
 var (
@@ -55,7 +55,7 @@ func (mgr *MongoManager) Add(conf MongoConfig) error {
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, conf.Addr)
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(conf.Addr))
 	if err != nil {
 		return err
 	}
@@ -77,17 +77,4 @@ func (mgr *MongoManager) Del(name string) bool {
 	mgr.dbs.Delete(name)
 	logger.Errorf("del mongo from mgr:%s", name)
 	return true
-}
-
-func (mgr *MongoManager) Stop() {
-	atomic.AddInt32(&mgr.stop, 1)
-}
-
-func (mgr *MongoManager) IsRunning() bool {
-	return atomic.LoadInt32(&mgr.stop) == 0
-}
-
-func StopMongo() {
-	logger.Infof("Stop mongo mgr!")
-	MongoMgr.Stop()
 }
