@@ -31,4 +31,3 @@ func ReadLog(fileName string) {
 		}
 	}
 }
-

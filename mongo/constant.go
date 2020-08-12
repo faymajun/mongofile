@@ -1,6 +1,7 @@
 package mongo
 
 import (
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 
@@ -52,3 +53,24 @@ func InsertLogOne(db, collection string, document interface{}) {
 		}
 	}()
 }
+
+type newVar func() interface{}
+
+func GetLog(db, collection string, nv newVar) ([]interface{}, error) {
+	c := DefaultMongo().Database(db).Collection(collection)
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	bs, err := c.Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	res := make([]interface{}, 0)
+	for bs.Next(ctx) {
+		elem := nv()
+		if err := bs.Decode(elem); err != nil {
+			continue
+		}
+		res = append(res, elem)
+	}
+	return res, nil
+}
+

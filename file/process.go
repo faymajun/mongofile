@@ -33,6 +33,7 @@ func Action() func(*cli.Context) error {
 
 		// 连接Mongo数据库
 		mongo.InitDefaultConfig(ctx.String("mongoAddr"))
+		defer mongo.CloseDefaultMongo()
 
 		// 等待退出信号
 		stopChan := make(chan os.Signal, 1)
@@ -48,8 +49,6 @@ func Action() func(*cli.Context) error {
 			return fmt.Errorf("Server stop duplication")
 		}
 
-		// 关闭Mongo数据库
-		mongo.CloseDefaultMongo()
 		return nil
 	}
 }
