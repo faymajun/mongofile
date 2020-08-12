@@ -27,7 +27,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "mongoAddr, m",
-			Value: "mongodb://192.168.9.216:27017",
+			Value: "mongodb://192.168.1.224:27017",
 		},
 		cli.IntFlag{
 			Name:  "scanFrequency, s",

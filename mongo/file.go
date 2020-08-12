@@ -1,7 +1,6 @@
 package mongo
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -50,11 +49,6 @@ func CloseMongoLog() {
 	MongoFile.f.Close()
 }
 
-func WriteOne(db, collection string, document interface{}) {
-	go func() {
-		data, err := json.Marshal(document)
-		if err == nil {
-			MongoFile.logger.Println(fmt.Sprintf("%s#%s#%s", db, collection, string(data)))
-		}
-	}()
+func WriteLogOne(db, collection string, document string) {
+	MongoFile.logger.Println(fmt.Sprintf("#%s#%s#%s", db, collection, document))
 }

@@ -18,7 +18,7 @@ func TestFile(t *testing.T) {
 	if err != nil {
 		logger.Errorf("json marshal err: %v", err)
 	}
-	WriteOne("db", "collection", string(testJson))
+	WriteLogOne("db", "collection", string(testJson))
 	time.Sleep(2 * time.Second)
 	CloseMongoLog()
 }

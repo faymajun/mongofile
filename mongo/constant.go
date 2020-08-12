@@ -42,3 +42,13 @@ func InsertMany(c *mongo.Collection, documents []interface{}) {
 		}
 	}()
 }
+
+func InsertLogOne(db, collection string, document interface{}) {
+	go func() {
+		c := DefaultMongo().Database(db).Collection(collection)
+		ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+		if _, error := c.InsertOne(ctx, document); error != nil {
+			logger.Errorf("InsertLogOne error, db=%s, collection=%s, document=%v, InsertOne error=%s", db, collection, document, error)
+		}
+	}()
+}
