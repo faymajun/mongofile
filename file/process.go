@@ -28,12 +28,12 @@ func Action() func(*cli.Context) error {
 		//if err != nil {
 		//	return err
 		//}
-		fileName := ctx.String("file")
-		mongo.ReadLog(fileName)
-
 		// 连接Mongo数据库
 		mongo.InitDefaultConfig(ctx.String("mongoAddr"))
 		defer mongo.CloseDefaultMongo()
+
+		fileName := ctx.String("file")
+		mongo.ReadLog(fileName)
 
 		// 等待退出信号
 		stopChan := make(chan os.Signal, 1)

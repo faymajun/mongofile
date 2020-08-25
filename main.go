@@ -23,11 +23,11 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "file, f",
-			Value: "text.log",
+			Value: "test.log",
 		},
 		cli.StringFlag{
 			Name:  "mongoAddr, m",
-			Value: "mongodb://192.168.1.224:27017",
+			Value: "mongodb://192.168.1.243:27017",
 		},
 		cli.IntFlag{
 			Name:  "scanFrequency, s",
