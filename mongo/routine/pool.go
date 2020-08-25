@@ -201,7 +201,7 @@ func (wp *workerPool) workerFunc(ch *workerChan) {
 		if fn == nil {
 			break
 		}
-		Try(fn, nil)
+		fn()
 		if !wp.release(ch) {
 			break
 		}
