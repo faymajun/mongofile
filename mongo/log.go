@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"io"
 	"os"
 	"strings"
 )
@@ -18,11 +19,17 @@ func ReadLog(fileName string) {
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
+	lineReader := bufio.NewReader(file)
+	for {
+		// 相同使用场景下可以采用的方法
+		// func (b *Reader) ReadLine() (line []byte, isPrefix bool, err error)
+		// func (b *Reader) ReadBytes(delim byte) (line []byte, err error)
+		// func (b *Reader) ReadString(delim byte) (line string, err error)
+		lineText, err := lineReader.ReadString('\n')
+		if err == io.EOF {
+			break
+		}
 		count++
-		lineText := scanner.Text()
 		strArr := strings.Split(lineText, "#")
 		if len(strArr) == 4 {
 			db, collection, data := strArr[1], strArr[2], strArr[3]
@@ -37,7 +44,7 @@ func ReadLog(fileName string) {
 						if err == nil {
 							InsertLogOne(db, collection, doc)
 						} else {
-							logger.Println(err)
+							logger.Errorln(err)
 						}
 						start = ind
 					}
@@ -48,7 +55,7 @@ func ReadLog(fileName string) {
 					if err == nil {
 						InsertLogOne(db, collection, doc)
 					} else {
-						logger.Println(err)
+						logger.Errorln(err)
 					}
 				}
 			} else {
@@ -57,7 +64,7 @@ func ReadLog(fileName string) {
 				if err == nil {
 					InsertLogOne(db, collection, doc)
 				} else {
-					logger.Println(err)
+					logger.Errorln(err)
 				}
 			}
 		}
