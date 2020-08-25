@@ -1,3 +1,9 @@
-2020/08/12 11:09:11 #db#collection#{"name":"testSever","id":"1","time":1597201751}
-2020/08/12 11:10:18 #db#collection#{"name":"testSever","id":"1","time":1597201818}
-2020/08/12 11:10:38 #db#collection#{"name":"testSever","id":"1","time":1597201838}
+2020/08/22 01:00:02 #test#onlineNumAtFullTime#{"nowTime":1598029201,"onlineRoleNum":0,"growthId":4301}
+2020/08/22 01:00:02 #test#onlineNumAtFullTime#{"nowTime":1598029201,"onlineRoleNum":0,"growthId":4101}
+2020/08/25 11:41:05 #test#useItem#[{"roleId":1135504101,"name":"来啊快活啊灬","itemId":702,"num":-14,"source":40,"recordTime":1598326860,"targetInfo":"","afterNum":168,"beforeNum":182}]
+2020/08/25 11:41:05 #test#gainitem#[{"roleId":1191304101,"name":"拓拔阿三","itemId":31,"num":180,"source":46,"recordTime":1598326860,"targetInfo":"","afterNum":0,"beforeNum":-180},{"roleId":1191304101,"name":"拓拔阿三","itemId":2,"num":20,"source":46,"recordTime":1598326860,"targetInfo":"","afterNum":130,"beforeNum":110}]
+2020/08/25 11:41:06 #test#gainitem#[{"roleId":1225604101,"name":"夏小时了","itemId":1,"num":25,"source":15,"recordTime":1598326861,"targetInfo":"","afterNum":100,"beforeNum":75}]
+2020/08/25 11:41:06 #test#gainitem#[{"roleId":1139204101,"name":"咖咖","itemId":32,"num":20,"source":31,"recordTime":1598326861,"targetInfo":"","afterNum":0,"beforeNum":-20}]
+2020/08/25 11:41:09 #test#gainitem#[{"roleId":1226704101,"name":"曜月","itemId":11104,"num":1,"source":26,"recordTime":1598326864,"targetInfo":"","afterNum":1,"beforeNum":0}]
+2020/08/25 11:41:09 #test#gainitem#[{"roleId":1138604101,"name":"长沙维迪奇","itemId":1,"num":45,"source":15,"recordTime":1598326864,"targetInfo":"","afterNum":1010,"beforeNum":965}]
+2020/08/25 11:41:10 #test#roleLoginOut#{"baseRole":{"fromSerId":4101,"userId":"318227205_zqgame","roleId":1267204101,"accountName":"兴平贝莱林","level":1,"uniqueAddr":"df3085e2660de57b7ae1844245b635c6","totalCash":0},"isLogin":false,"onlineTime":244,"onlineUserNum":715,"hint":"","loginTime":1598326865}

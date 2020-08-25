@@ -1,14 +1,10 @@
 package file
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 	"mongofile/mongo"
-	"os"
-	"os/signal"
-	"sync/atomic"
-	"syscall"
+	"mongofile/mongo/routine"
 	"time"
 )
 
@@ -34,20 +30,7 @@ func Action() func(*cli.Context) error {
 
 		fileName := ctx.String("file")
 		mongo.ReadLog(fileName)
-
-		// 等待退出信号
-		stopChan := make(chan os.Signal, 1)
-		signal.Notify(stopChan, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM, syscall.SIGINT)
-		select {
-		case sig, _ := <-stopChan:
-			logger.Infof("<<<==================>>>")
-			logger.Infof("<<<stop process by:%v>>>", sig)
-			logger.Infof("<<<==================>>>")
-			break
-		}
-		if atomic.LoadInt32(&status.started) == 0 || atomic.AddInt32(&status.stoped, 1) != 1 {
-			return fmt.Errorf("Server stop duplication")
-		}
+		routine.Pool.Stop() // 协程池任务关闭
 
 		return nil
 	}

@@ -3,6 +3,7 @@ package mongo
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"mongofile/mongo/routine"
 	"time"
 
 	"golang.org/x/net/context"
@@ -45,13 +46,13 @@ func InsertMany(c *mongo.Collection, documents []interface{}) {
 }
 
 func InsertLogOne(db, collection string, document interface{}) {
-	go func() {
+	routine.Pool.Serve(func() {
 		c := DefaultMongo().Database(db).Collection(collection)
 		ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 		if _, error := c.InsertOne(ctx, document); error != nil {
 			logger.Errorf("InsertLogOne error, db=%s, collection=%s, document=%v, InsertOne error=%s", db, collection, document, error)
 		}
-	}()
+	})
 }
 
 type newVar func() interface{}
@@ -73,4 +74,3 @@ func GetLog(db, collection string, nv newVar) ([]interface{}, error) {
 	}
 	return res, nil
 }
-
